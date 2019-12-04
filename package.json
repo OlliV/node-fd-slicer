@@ -12,12 +12,12 @@
   "license": "MIT",
   "devDependencies": {
     "istanbul": "~0.3.3",
-    "mocha": "~2.0.1",
-    "stream-equal": "~0.1.5",
-    "streamsink": "~1.2.0"
+    "mocha": "6.2.2",
+    "stream-equal": "1.1.1",
+    "streamsink": "1.2.0"
   },
   "dependencies": {
-    "pend": "~1.2.0"
+    "pend": "1.2.0"
   },
   "directories": {
     "test": "test"

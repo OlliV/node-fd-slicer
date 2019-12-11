@@ -9,6 +9,9 @@
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --timeout 10000 --reporter spec --check-leaks test/test.js"
   },
   "license": "MIT",
+  "files": [
+      "index.js"
+  ],
   "devDependencies": {
     "istanbul": "~0.3.3",
     "mocha": "6.2.2",

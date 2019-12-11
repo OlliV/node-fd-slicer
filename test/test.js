@@ -198,7 +198,7 @@ describe("FdSlicer", () => {
         assert.strictEqual(err.code, 'ETOOBIG');
         slicer.on('close', done);
       });
-      ws.end(new Buffer(1001));
+      ws.end(Buffer.alloc(1001));
     });
   });
 
@@ -210,7 +210,7 @@ describe("FdSlicer", () => {
       const ws = slicer.createWriteStream({end: 1000});
 
       slicer.on('close', done);
-      ws.end(new Buffer(1000));
+      ws.end(Buffer.alloc(1000));
     });
   });
 
@@ -225,7 +225,7 @@ describe("FdSlicer", () => {
         assert.strictEqual(err.code, 'ETOOBIG');
         slicer.on('close', done);
       });
-      ws.end(new Buffer(1000));
+      ws.end(Buffer.alloc(1000));
     });
   });
 
@@ -248,7 +248,7 @@ describe("FdSlicer", () => {
         done();
       });
       for (let i = 0; i < 10; i += 1) {
-        ws.write(new Buffer(16 * 1024 * 2));
+        ws.write(Buffer.alloc(16 * 1024 * 2));
       }
       ws.end();
     });
@@ -262,7 +262,7 @@ describe("FdSlicer", () => {
       const ws = slicer.createWriteStream();
 
       slicer.on('close', done);
-      ws.write(new Buffer(1000));
+      ws.write(Buffer.alloc(1000));
       ws.destroy();
     });
   });
@@ -287,7 +287,7 @@ describe("FdSlicer", () => {
       if (err) return done(err);
 
       const slicer = fdSlicer.createFromFd(fd);
-      const outBuf = new Buffer(1024);
+      const outBuf = Buffer.alloc(1024);
 
       slicer.read(outBuf, 0, 10, 0, (err, bytesRead, buf) => {
         assert.strictEqual(bytesRead, 10);
@@ -302,7 +302,7 @@ describe("FdSlicer", () => {
 
       const slicer = fdSlicer.createFromFd(fd);
 
-      slicer.write(new Buffer("blah\n"), 0, 5, 0, () => {
+      slicer.write(Buffer.from("blah\n"), 0, 5, 0, () => {
         if (err) return done(err);
         fs.close(fd, done);
       });
@@ -312,7 +312,7 @@ describe("FdSlicer", () => {
 
 describe("BufferSlicer", () => {
   it("invalid ref", () => {
-    const slicer = fdSlicer.createFromBuffer(new Buffer(16));
+    const slicer = fdSlicer.createFromBuffer(Buffer.alloc(16));
 
     slicer.ref();
     slicer.unref();
@@ -321,14 +321,14 @@ describe("BufferSlicer", () => {
     }, /invalid unref/);
   });
   it("read and write", (done) => {
-    const buf = new Buffer("through the tangled thread the needle finds its way");
+    const buf = Buffer.from("through the tangled thread the needle finds its way");
     const slicer = fdSlicer.createFromBuffer(buf);
-    const outBuf = new Buffer(1024);
+    const outBuf = Buffer.alloc(1024);
 
     slicer.read(outBuf, 10, 11, 8, (err) => {
       if (err) return done(err);
       assert.strictEqual(outBuf.toString('utf8', 10, 21), "the tangled");
-      slicer.write(new Buffer("derp"), 0, 4, 7, (err) => {
+      slicer.write(Buffer.from("derp"), 0, 4, 7, (err) => {
         if (err) return done(err);
         assert.strictEqual(buf.toString('utf8', 7, 19), "derp tangled");
         done();
@@ -337,7 +337,7 @@ describe("BufferSlicer", () => {
   });
   it("createReadStream", (done) => {
     const str = "I never conquered rarely came, 16 just held such better days";
-    const buf = new Buffer(str);
+    const buf = Buffer.from(str);
     const slicer = fdSlicer.createFromBuffer(buf);
     const inStream = slicer.createReadStream();
     const sink = new StreamSink();
@@ -350,7 +350,7 @@ describe("BufferSlicer", () => {
     });
   });
   it("createWriteStream exceed buffer size", (done) => {
-    const slicer = fdSlicer.createFromBuffer(new Buffer(4));
+    const slicer = fdSlicer.createFromBuffer(Buffer.alloc(4));
     const outStream = slicer.createWriteStream();
 
     outStream.on('error', (err) => {
@@ -362,7 +362,7 @@ describe("BufferSlicer", () => {
     outStream.end();
   });
   it("createWriteStream ok", (done) => {
-    const buf = new Buffer(1024);
+    const buf = Buffer.alloc(1024);
     const slicer = fdSlicer.createFromBuffer(buf);
     const outStream = slicer.createWriteStream();
 

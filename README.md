@@ -1,7 +1,5 @@
 # fd-slicer
 
-[![Build Status](https://travis-ci.org/andrewrk/node-fd-slicer.svg?branch=master)](https://travis-ci.org/andrewrk/node-fd-slicer)
-
 Safe `fs.ReadStream` and `fs.WriteStream` using the same fd.
 
 Let's say that you want to perform a parallel upload of a file to a remote
